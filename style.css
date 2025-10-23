@@ -1,0 +1,136 @@
+/* === DESIGN SYSTEM: Aurora Night palette (dark-first, accessible contrast) === */
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+:root{
+  /* Base (dark) */
+  --bg:#0d1017;            /* page background */
+  --panel:#111827;         /* section background */
+  --card:#0f172a;          /* cards */
+  --ring:#22314a;          /* borders */
+  --text:#e6eef7;          /* primary text */
+  --muted:#9fb0c3;         /* secondary text */
+  --accent:#22d3ee;        /* cyan */
+  --accent-2:#a78bfa;      /* violet */
+  --accent-3:#34d399;      /* emerald (sparingly) */
+  --soft:color-mix(in oklab, white 6%, transparent);
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f7fafc;
+    --panel:#ffffff;
+    --card:#ffffff;
+    --ring:#e5e7eb;
+    --text:#0f172a;
+    --muted:#525f77;
+    --accent:#0891b2;
+    --accent-2:#7c3aed;
+    --accent-3:#059669;
+    --soft:color-mix(in oklab, black 4%, transparent);
+  }
+}
+html{background:var(--bg)}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;line-height:1.6;color:var(--text);background:var(--bg)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* --- LAYOUT HELPERS --- */
+.container{width:100%;max-width:1120px;margin-inline:auto;padding:0 1rem}
+.row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.grid{display:grid;gap:1rem}
+.grid-md-2{} .grid-md-3{} .grid-md-4{} .grid-md-5{}
+@media (min-width:768px){
+  .grid-md-2{grid-template-columns:1fr 1fr}
+  .grid-md-3{grid-template-columns:repeat(3,1fr)}
+  .grid-md-4{grid-template-columns:repeat(4,1fr)}
+  .grid-md-5{grid-template-columns:repeat(5,1fr)}
+  .span-2{grid-column:span 2}
+  .span-3{grid-column:span 3}
+}
+
+/* --- INTERACTIVE --- */
+.btn{
+  --glow: drop-shadow(0 0 12px color-mix(in oklab, var(--accent) 40%, transparent));
+  display:inline-flex;gap:.6rem;align-items:center;
+  border:1px solid color-mix(in oklab, var(--accent) 55%, var(--ring));
+  color:var(--text);
+  padding:.75rem 1rem;border-radius:1rem;
+  background:linear-gradient(135deg, color-mix(in oklab,var(--accent) 16%, transparent), color-mix(in oklab,var(--accent-2) 10%, transparent));
+  cursor:pointer;filter:var(--glow);transition:transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.btn:hover{transform:translateY(-1px);background:linear-gradient(135deg, color-mix(in oklab,var(--accent) 24%, transparent), color-mix(in oklab,var(--accent-2) 18%, transparent))}
+.btn:active{transform:translateY(0)}
+.btn-ghost{border-color:var(--ring);color:inherit;background:transparent;filter:none}
+.btn-ghost:hover{background:var(--soft)}
+
+.chip{
+  display:inline-flex;gap:.45rem;align-items:center;border-radius:999px;
+  padding:.3rem .7rem;background:linear-gradient(180deg, color-mix(in oklab, var(--accent) 8%, transparent), transparent);
+  border:1px solid color-mix(in oklab, var(--accent) 35%, var(--ring));font-size:.82rem;color:var(--text)
+}
+
+/* --- HEADER --- */
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(8px);
+  background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 82%, transparent) 0%, color-mix(in oklab, var(--panel) 70%, transparent) 100%);
+  border-bottom:1px solid var(--ring)}
+header .inner{display:flex;justify-content:space-between;align-items:center;padding:.7rem 1rem}
+nav a,nav button{font-size:.95rem}
+.brand{font-weight:700}
+.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:10px;border:1px solid color-mix(in oklab,var(--accent) 60%, var(--ring));margin-right:.5rem;background:linear-gradient(135deg, color-mix(in oklab,var(--accent) 20%, transparent), transparent)}
+.brand-name{}
+
+/* --- HERO --- */
+.hero{position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;display:grid;grid-template-columns:1fr;}
+@media (min-width:768px){.hero-bg{grid-template-columns:1fr 1fr}}
+.hero-half{position:relative;isolation:isolate}
+.hero-half::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(0,0,0,.35))}
+/* Lush vs. Dystopia gradients */
+.hero-left{background:linear-gradient(135deg, color-mix(in oklab,var(--accent-3) 35%, #063) , color-mix(in oklab,var(--accent) 30%, #0a4))}
+.hero-left img{mix-blend:overlay;opacity:.6}
+.hero-right{background:linear-gradient(135deg, #0b0e16, #0b0e16 40%, #0a0a0b)}
+.hero-right img{mix-blend:overlay;opacity:.8}
+.hero-content{position:relative;padding:4rem 0 3rem}
+.headline{font-weight:800;letter-spacing:-.02em;font-size:2rem}
+@media (min-width:768px){.headline{font-size:3rem;line-height:1.15}}
+.headline .people{color:var(--accent-3)}
+.headline .buildings{opacity:.72;color:color-mix(in oklab,var(--muted), var(--text) 20%)}
+.lead{max-width:42rem;color:var(--muted)}
+
+/* --- SECTIONS --- */
+section{padding:2.5rem 0}
+@media (min-width:768px){section{padding:4rem 0}}
+.card{background:linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, transparent), color-mix(in oklab, var(--panel) 86%, transparent));border:1px solid var(--ring);border-radius:1rem;padding:1rem;box-shadow:0 6px 28px -20px #000}
+
+/* --- COLLAGE --- */
+.collage .collage-grid{display:grid;grid-template-columns:1fr 1fr;height:16rem;gap:.75rem}
+@media (min-width:768px){.collage .collage-grid{height:100%}}
+
+/* --- DIVIDER --- */
+.divider{position:relative}
+.wave{width:100%;height:64px;color:#0f1420}
+.wave path{fill:currentColor}
+
+/* --- DYSTOPIA SECTION --- */
+.dystopia{background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 94%, transparent) 0%, color-mix(in oklab, var(--panel) 86%, transparent) 100%);border-block:1px solid var(--ring)}
+.maxw{max-width:48rem}
+
+/* --- TIMELINE --- */
+.timeline{width:100%;height:10rem;border:1px solid var(--ring);border-radius:.8rem;position:relative;overflow:hidden;background:radial-gradient(1200px 400px at -10% 120%, color-mix(in oklab,var(--accent) 10%, transparent), transparent)}
+.timeline canvas{width:100%;height:100%}
+
+/* --- IMAGE GRID --- */
+.imgcell{aspect-ratio:4/3;border:1px solid var(--ring);border-radius:.9rem;overflow:hidden;background:var(--panel)}
+.imgcell img{height:100%;width:100%;object-fit:cover;transition:transform .3s ease, filter .3s ease}
+.imgcell:hover img{transform:scale(1.05);filter:saturate(1.08)}
+
+/* --- VIDEO --- */
+.video-wrap{position:relative;aspect-ratio:16/9;border:1px solid var(--ring);border-radius:1rem;overflow:hidden;background:var(--panel)}
+.video-wrap iframe{width:100%;height:100%}
+
+/* --- FOOTER --- */
+footer{border-top:1px solid var(--ring);padding:2rem 0;color:var(--muted)}
+
+/* --- UTILITIES --- */
+.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.mt-12{margin-top:3rem}
+.small{font-size:.9rem}
+.muted{color:var(--muted)}

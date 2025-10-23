@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eindhoven Futures</title>
+  <meta name="description" content="Eindhoven is growing fast — but are we building a city for people or just buildings?" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container inner">
+      <div class="row brand">
+        <span class="brand-mark">🌿</span>
+        <span class="brand-name">Eindhoven Futures</span>
+      </div>
+      <nav class="row">
+        <a href="#home">Home</a>
+        <a href="#dystopia">Dystopia 2045</a>
+        <button class="btn" data-scroll="#dystopia">Explore the future →</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-half hero-left">
+        <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1400&q=60" alt="" />
+      </div>
+      <div class="hero-half hero-right">
+        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1400&q=60" alt="" />
+      </div>
+    </div>
+    <div class="container hero-content">
+      <h1 class="headline">Eindhoven is growing fast — but are we building a city for <span class="people">people</span> or just <span class="buildings">buildings</span>?</h1>
+      <p class="lead mt-2">Overcrowding, a student housing crisis, and shrinking green spaces are reshaping daily life. We visualize two paths: a livable, human‑centered Eindhoven — or a grey, overbuilt dystopia.</p>
+      <div class="row mt-4">
+        <button class="btn" data-scroll="#dystopia">Explore the future →</button>
+        <a class="btn btn-ghost" href="#about">Learn more</a>
+      </div>
+      <div class="row mt-6 chips">
+        <span class="chip">🌳 Green & livable</span>
+        <span class="chip">🏗️ Grey & overbuilt</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section id="about">
+    <div class="container grid grid-md-2">
+      <div>
+        <h2 class="h2">The problem in a nutshell</h2>
+        <p class="muted mt-2">
+          Eindhoven’s growth brings opportunity — and pressure. Student demand outpaces supply, pushing rents up.
+          Rapid development chips away at parks and informal green pockets that keep neighborhoods breathable and social.
+        </p>
+        <ul class="bullets mt-3">
+          <li>• Student housing demand ↑, affordability ↓</li>
+          <li>• Green space per resident trending ↓</li>
+          <li>• Heat‑island effect and flood risk ↑ as surfaces harden</li>
+        </ul>
+      </div>
+      <div class="card collage">
+        <div class="collage-grid">
+          <div class="imgcell">
+            <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=60" alt="Green Eindhoven vision" />
+          </div>
+          <div class="imgcell">
+            <img src="https://images.unsplash.com/photo-1487887235947-a955ef187fcc?auto=format&fit=crop&w=1000&q=60" alt="Grey overbuilt city" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" class="wave">
+      <path d="M0,64L80,74.7C160,85,320,107,480,112C640,117,800,107,960,112C1120,117,1280,139,1360,149.3L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+    </svg>
+  </div>
+
+  <!-- Dystopian 2045 -->
+  <section id="dystopia" class="dystopia">
+    <div class="container">
+      <h2 class="h2">🏭 The Dystopian Scenario (2045)</h2>
+      <p class="muted mt-2 maxw">
+        It’s 2045. Eindhoven is one of Europe’s most advanced student hubs… but few can afford to live here.
+        Micro‑rooms dominate, commutes lengthen, and concrete plains amplify heat. Green is a memory.
+      </p>
+
+      <div class="grid grid-md-3 mt-6">
+        <div class="card">
+          <h3 class="h3">Housing squeeze</h3>
+          <p class="muted">Rents outpace wages. Students share 10–12 m² micro‑units; families move out.</p>
+        </div>
+        <div class="card">
+          <h3 class="h3">Grey heat</h3>
+          <p class="muted">Paved courtyards and glass towers trap heat, raising summertime health risks.</p>
+        </div>
+        <div class="card">
+          <h3 class="h3">Social erosion</h3>
+          <p class="muted">Without accessible parks, casual community life fades — fewer safe, shared spaces.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-md-5 mt-12 visuals">
+        <div class="span-2">
+          <h4 class="h4">Green space decline (est.)</h4>
+          <p class="muted small">Illustrative trend (2010→2045). Replace with real data later.</p>
+          <div class="timeline" id="timeline"></div>
+        </div>
+        <div class="span-3">
+          <h4 class="h4">Visuals</h4>
+          <p class="muted small">Swap these placeholders with AI art, renders, or photo composites.</p>
+          <div class="grid grid-md-4 mt-2">
+            <div class="imgcell"><img src="https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=900&q=60" alt=""></div>
+            <div class="imgcell"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=60" alt=""></div>
+            <div class="imgcell"><img src="https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=900&q=60" alt=""></div>
+            <div class="imgcell"><img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=900&q=60" alt=""></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <h4 class="h4">▶ Short explainer</h4>
+        <p class="muted small">Embed a 30–60s video summarizing the problem and stakes.</p>
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/aqz-KE-bpKQ?rel=0&modestbranding=1"
+            title="Explainer video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Made for the Future Scenarios Challenge • Eindhoven, NL</p>
+      <p class="muted mt-2">Next: add the solution page with human‑centered interventions, partners, and a call‑to‑action.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+    
