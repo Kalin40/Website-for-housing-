@@ -1,109 +1,386 @@
-// Smooth scroll for buttons/links with data-scroll
+// === Smooth Scroll Navigation ===
 document.addEventListener('click', (e) => {
-  const t = e.target.closest('[data-scroll]');
-  if (!t) return;
-  const sel = t.getAttribute('data-scroll');
-  const el = document.querySelector(sel);
-  if (!el) return;
-  e.preventDefault();
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const target = e.target.closest('[data-scroll]');
+  if (!target) return;
+
+  const selector = target.getAttribute('data-scroll');
+  const element = document.querySelector(selector);
+
+  if (element) {
+    e.preventDefault();
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
 });
 
-// Simple parallax on the left hero background on scroll (very light)
-const leftHalf = document.querySelector('.hero-left img');
-if (leftHalf) {
+// === Active Navigation Link ===
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav a');
+
   window.addEventListener('scroll', () => {
-    const y = window.scrollY * 0.15;
-    leftHalf.style.transform = `translateY(${y}px)`;
+    let current = '';
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+
+      if (scrollY >= sectionTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
+      const href = link.getAttribute('href');
+      if (href === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  });
+});
+
+// === Parallax Effect on Hero ===
+window.addEventListener('scroll', () => {
+  const hero = document.querySelector('.hero');
+  const heroBg = document.querySelector('.hero-bg');
+
+  if (hero) {
+    const scrollPosition = window.scrollY;
+    const heroHeight = hero.offsetHeight;
+
+    if (scrollPosition < heroHeight) {
+      heroBg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+    }
+  }
+});
+
+// === Fade In Animation on Scroll ===
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.section').forEach((section) => {
+  observer.observe(section);
+});
+
+// === Button Ripple Effect ===
+document.querySelectorAll('.btn').forEach((button) => {
+  button.addEventListener('click', function (e) {
+    const ripple = document.createElement('span');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.classList.add('ripple');
+
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+// === Counter Animation for Stats ===
+function animateCounter(element, target) {
+  let current = 0;
+  const increment = target / 30;
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = target;
+      clearInterval(timer);
+    } else {
+      element.textContent = Math.floor(current);
+    }
+  }, 50);
+}
+
+// === Animate Stats on Scroll ===
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && !entry.target.dataset.animated) {
+      const statsValues = entry.target.querySelectorAll('.stat-value');
+      statsValues.forEach((value) => {
+        const number = parseInt(value.textContent);
+        if (!isNaN(number)) {
+          animateCounter(value, number);
+        }
+      });
+      entry.target.dataset.animated = 'true';
+      statsObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+const statsBox = document.querySelector('.stats-box');
+if (statsBox) {
+  statsObserver.observe(statsBox);
+}
+
+// === Mobile Menu Toggle (Future Enhancement) ===
+const menuToggle = document.querySelector('.menu-toggle');
+const navMenu = document.querySelector('.nav');
+
+if (menuToggle) {
+  menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
   });
 }
 
-// Tiny timeline chart (canvas) — illustrative declining trend
-(function initTimeline(){
-  const box = document.getElementById('timeline');
-  if (!box) return;
-  const c = document.createElement('canvas');
-  box.appendChild(c);
-  const ctx = c.getContext('2d');
+// === Smooth Scroll Behavior ===
+document.documentElement.style.scrollBehavior = 'smooth';
 
-  // Resize handling
-  function sizeCanvas() {
-    c.width = box.clientWidth * window.devicePixelRatio;
-    c.height = box.clientHeight * window.devicePixelRatio;
-    draw();
-  }
-  window.addEventListener('resize', sizeCanvas, { passive: true });
-  sizeCanvas();
+// === Animated Counter for Numbers ===
+function animateValue(element, start, end, duration) {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 
-  function drawAxes() {
-    ctx.save();
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-    ctx.lineWidth = 1;
-    const w = box.clientWidth;
-    const h = box.clientHeight;
-    // y axis
-    ctx.beginPath(); ctx.moveTo(24, 8); ctx.lineTo(24, h - 8); ctx.stroke();
-    // x axis
-    ctx.beginPath(); ctx.moveTo(24, h - 16); ctx.lineTo(w - 16, h - 16); ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawLine() {
-    const w = c.width;
-    const h = c.height;
-    const padL = 24 * window.devicePixelRatio;
-    const padB = 16 * window.devicePixelRatio;
-
-    // Build a smooth declining path
-    const pts = [];
-    const n = 12;
-    for (let i = 0; i <= n; i++) {
-      const t = i / n;
-      const x = padL + t * (w - padL - 16 * window.devicePixelRatio);
-      const y = 0.25*h + 0.1*h * Math.sin(t*2*Math.PI) + t * 0.55*h; // general decline
-      pts.push({x,y});
+    if (element.innerHTML.includes('+')) {
+      element.innerHTML = Math.floor(progress * (end - start) + start) + '+';
+    } else {
+      element.innerHTML = Math.floor(progress * (end - start) + start);
     }
 
-    // Area
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
-    ctx.lineTo(pts[pts.length-1].x, h - padB);
-    ctx.lineTo(pts[0].x, h - padB);
-    ctx.closePath();
-    const grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, 'rgba(52, 211, 153, 0.6)');
-    grad.addColorStop(1, 'rgba(52, 211, 153, 0.0)');
-    ctx.fillStyle = grad;
-    ctx.fill();
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
 
-    // Line
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'rgb(52, 211, 153)';
-    ctx.stroke();
+// === Animate Stats on Scroll (Enhanced) ===
+const countUpObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && !entry.target.dataset.counted) {
+      const numbers = entry.target.querySelectorAll('.stat-value');
+      numbers.forEach((num) => {
+        const value = parseInt(num.textContent);
+        if (!isNaN(value)) {
+          animateValue(num, 0, value, 1500);
+        }
+      });
+      entry.target.dataset.counted = 'true';
+      countUpObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stats-box').forEach((box) => {
+  countUpObserver.observe(box);
+});
+
+// === Parallax Effect on Hero (Enhanced) ===
+window.addEventListener('scroll', () => {
+  const hero = document.querySelector('.hero');
+  const heroBg = document.querySelector('.hero-bg');
+  const heroContent = document.querySelector('.hero-content');
+
+  if (hero && heroBg) {
+    const scrollPosition = window.scrollY;
+    const heroHeight = hero.offsetHeight;
+
+    if (scrollPosition < heroHeight) {
+      heroBg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+      if (heroContent) {
+        heroContent.style.opacity = 1 - scrollPosition / (heroHeight * 0.8);
+      }
+    }
   }
 
-  function drawTicks() {
-    const w = c.width / window.devicePixelRatio;
-    const h = c.height / window.devicePixelRatio;
-    const ctx2 = c.getContext('2d');
-    ctx2.save();
-    ctx2.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx2.font = '10px system-ui, sans-serif';
-    ctx2.fillText('2010', 16, h - 2);
-    ctx2.fillText('2025', w/2 - 12, h - 2);
-    ctx2.fillText('2045', w - 36, h - 2);
-    ctx2.restore();
+  // Section fade-in animations
+  document.querySelectorAll('.section').forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (isVisible) {
+      section.style.opacity = Math.min(1, 1 - (rect.top / window.innerHeight) * 0.3 + 0.7);
+    }
+  });
+});
+
+// === Roadmap Cards Hover Effect ===
+document.querySelectorAll('.roadmap-phase').forEach((phase) => {
+  phase.addEventListener('mouseenter', () => {
+    phase.style.transform = 'translateY(-5px)';
+    phase.style.boxShadow = '0 20px 40px rgba(59, 130, 246, 0.15)';
+  });
+
+  phase.addEventListener('mouseleave', () => {
+    phase.style.transform = 'translateY(0)';
+    phase.style.boxShadow = 'var(--shadow-md)';
+  });
+});
+
+// === Plan Card Hover with Icon Rotation ===
+document.querySelectorAll('.plan-card').forEach((card) => {
+  const icon = card.querySelector('.plan-icon');
+
+  card.addEventListener('mouseenter', () => {
+    icon.style.transform = 'scale(1.2) rotate(10deg)';
+  });
+
+  card.addEventListener('mouseleave', () => {
+    icon.style.transform = 'scale(1) rotate(0deg)';
+  });
+});
+
+// === Metric Items Pop Animation ===
+document.querySelectorAll('.metric-item').forEach((item) => {
+  item.addEventListener('mouseenter', () => {
+    item.style.transform = 'scale(1.1)';
+    item.style.transition = 'all 0.3s ease';
+  });
+
+  item.addEventListener('mouseleave', () => {
+    item.style.transform = 'scale(1)';
+  });
+});
+
+// === Card Hover Glow Effect ===
+document.querySelectorAll('.card').forEach((card) => {
+  card.addEventListener('mouseenter', () => {
+    card.style.boxShadow = '0 0 30px rgba(59, 130, 246, 0.2)';
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.boxShadow = 'var(--shadow-sm)';
+  });
+});
+
+// === Scroll Progress Indicator ===
+function updateScrollProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = (scrollTop / docHeight) * 100;
+
+  // Create progress bar if it doesn't exist
+  let progressBar = document.querySelector('.scroll-progress-bar');
+  if (!progressBar) {
+    progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress-bar';
+    document.body.appendChild(progressBar);
   }
 
-  function draw() {
-    ctx.clearRect(0,0,c.width,c.height);
-    drawAxes();
-    drawLine();
-    drawTicks();
-  }
-})();
+  progressBar.style.width = scrollPercent + '%';
+}
+
+window.addEventListener('scroll', updateScrollProgress);
+
+// === Stagger Animation for List Items ===
+function staggerAnimateElements(selector, delay = 100) {
+  const elements = document.querySelectorAll(selector);
+  elements.forEach((el, index) => {
+    setTimeout(() => {
+      el.style.animation = 'slideInUp 0.6s ease-out forwards';
+    }, index * delay);
+  });
+}
+
+// === Animate on Scroll for Elements ===
+function setupScrollAnimations() {
+  const elements = document.querySelectorAll('[data-animate]');
+
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const animationType = entry.target.getAttribute('data-animate');
+        entry.target.classList.add('animated', animationType);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  elements.forEach((el) => {
+    observer.observe(el);
+  });
+}
+
+setupScrollAnimations();
+
+// === Dynamic Section Highlighting ===
+function highlightActiveSection() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      if (scrollY >= sectionTop - 300) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  });
+}
+
+highlightActiveSection();
+
+// === Mouse Move Effect on Hero ===
+function setupMouseEffect() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  hero.addEventListener('mousemove', (e) => {
+    const { clientX, clientY } = e;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    const moveX = (clientX - centerX) * 0.01;
+    const moveY = (clientY - centerY) * 0.01;
+
+    const heroBg = hero.querySelector('.hero-bg');
+    if (heroBg) {
+      heroBg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    }
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    const heroBg = hero.querySelector('.hero-bg');
+    if (heroBg) {
+      heroBg.style.transform = 'translate(0, 0)';
+    }
+  });
+}
+
+setupMouseEffect();
+
+// === Loading Complete ===
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('loaded');
+
+  // Stagger animate plan cards
+  staggerAnimateElements('.plan-card', 100);
+
+  // Stagger animate cards
+  staggerAnimateElements('.card', 80);
+});
