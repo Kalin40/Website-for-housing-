@@ -1,0 +1,5 @@
+{
+  "buildPack": "dockerfile",
+  "dockerfile": "./Dockerfile",
+  "port": 80
+}
