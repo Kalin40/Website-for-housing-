@@ -1214,3 +1214,15 @@ footer .btn-outline-light:hover {
     display: none;
   }
 }
+
+/* === HERO PERFORMANCE FIXES === */
+.hero-bg {
+  transform: translateZ(0) !important;
+  will-change: transform !important;
+}
+
+.hero-bg img {
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  will-change: auto !important;
+}
