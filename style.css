@@ -1197,7 +1197,101 @@ footer .btn-outline-light:hover {
   transform: scale(1.1);
 }
 
-/* === PRINT STYLES === */
+/* === WCAG ACCESSIBILITY IMPROVEMENTS === */
+
+/* Focus indicators for keyboard navigation (WCAG 2.4.7) */
+.card[role="article"]:focus {
+  outline: 3px solid var(--primary-blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.1);
+}
+
+.card[role="article"]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: var(--shadow-md);
+}
+
+.card[role="article"]:focus-visible {
+  outline: 3px solid var(--primary-blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.1);
+}
+
+/* Touch target size (WCAG 2.5.5) - minimum 44x44 pixels */
+.card[role="article"] {
+  min-height: 44px;
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.icon-circle {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Enhanced color contrast for text on colored backgrounds */
+.card[role="article"] .text-primary,
+.card[role="article"] .text-success,
+.card[role="article"] .text-info,
+.card[role="article"] .text-warning,
+.card[role="article"] .text-danger {
+  font-weight: 600;
+}
+
+/* Skip to main content link (WCAG 2.4.1) - for keyboard users */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background-color: var(--primary-blue);
+  color: var(--bg-white);
+  padding: var(--space-md);
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* Reduce motion for users who prefer it (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  .card[role="article"],
+  .card[role="article"] .card-body {
+    transition: none;
+    animation: none !important;
+  }
+
+  .icon-circle {
+    animation: none !important;
+  }
+}
+
+/* Improve text readability with line-height */
+.card[role="article"] .card-text {
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+}
+
+/* Ensure proper heading hierarchy (WCAG 1.3.1) */
+#sdg-targets-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.card[role="article"] h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+/* Print STYLES === */
 @media print {
   header,
   footer,
