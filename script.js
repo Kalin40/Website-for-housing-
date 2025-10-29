@@ -15,10 +15,10 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// === Active Navigation Link ===
+// === Active Navigation Link (Bootstrap Navbar) ===
 document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav a');
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
   window.addEventListener('scroll', () => {
     let current = '';
@@ -37,6 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const href = link.getAttribute('href');
       if (href === `#${current}`) {
         link.classList.add('active');
+      }
+    });
+  });
+
+  // Close mobile navbar on link click
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const navbar = document.querySelector('.navbar-collapse');
+      if (navbar.classList.contains('show')) {
+        navbar.classList.remove('show');
       }
     });
   });
@@ -319,31 +329,33 @@ function setupScrollAnimations() {
 
 setupScrollAnimations();
 
-// === Dynamic Section Highlighting ===
-function highlightActiveSection() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav a');
+// === Navbar Scroll Effect ===
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('mainNav');
+  if (navbar) {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+});
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      if (scrollY >= sectionTop - 300) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach((link) => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
-    });
-  });
-}
-
-highlightActiveSection();
+// === Scroll to Top Button Visibility ===
+window.addEventListener('scroll', () => {
+  const scrollBtn = document.querySelector('[onclick*="scrollTo"]');
+  if (scrollBtn) {
+    if (window.scrollY > 300) {
+      scrollBtn.style.display = 'block';
+      scrollBtn.style.opacity = '1';
+    } else {
+      scrollBtn.style.opacity = '0';
+      setTimeout(() => {
+        if (window.scrollY <= 300) scrollBtn.style.display = 'none';
+      }, 300);
+    }
+  }
+});
 
 // === Mouse Move Effect on Hero ===
 function setupMouseEffect() {
