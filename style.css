@@ -1259,6 +1259,54 @@ footer .btn-outline-light:hover {
   font-weight: 600;
 }
 
+/* Progress Metrics Table Enhancement */
+.table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.table thead {
+  background-color: #f3f4f6;
+  border-top: 2px solid var(--primary-green);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 1rem;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.table .badge {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.table i {
+  font-size: 1.25rem;
+}
+
+/* Badge color animations */
+.badge {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.table tbody tr:hover .badge {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 /* Skip to main content link (WCAG 2.4.1) - for keyboard users */
 .skip-to-main {
   position: absolute;
